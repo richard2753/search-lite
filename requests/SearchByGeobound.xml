@@ -1,24 +1,27 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="com.thelateroomsgroup.services.search" xmlns:fil="com.thelateroomsgroup.services.search/Filters" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
    <soapenv:Header/>
    <soapenv:Body>
-      <com:SearchByText>
+      <com:SearchByGeobound>
          <com:request>
             <com:ArrivalDate>{{arrivalDate:$TODAY$}}</com:ArrivalDate>
             <com:CurrencyCode>{{currencyCode:GBP}}</com:CurrencyCode>
             <com:Filters>
                <fil:ExcludeFullHotels>true</fil:ExcludeFullHotels>
             </com:Filters>
+            <com:MaxPointOnMap>
+               <com:Latitude>{{maxLat}}</com:Latitude>
+               <com:Longitude>{{maxLong}}</com:Longitude>
+            </com:MaxPointOnMap>
+            <com:MinPointOnMap>
+               <com:Latitude>{{minLat}}</com:Latitude>
+               <com:Longitude>{{minLong}}</com:Longitude>
+            </com:MinPointOnMap>
             <com:Nights>{{nights:1}}</com:Nights>
             <com:Occupancy>
                <com:Adults>{{adults:2}}</com:Adults>
                <com:Children>{{children:0}}</com:Children>
             </com:Occupancy>
-            <com:Page>
-               <com:PageNumber>1</com:PageNumber>
-               <com:PageSize>1000</com:PageSize>
-            </com:Page>
-            <com:SearchText>{{searchTerm}}</com:SearchText>
          </com:request>
-      </com:SearchByText>
+      </com:SearchByGeobound>
    </soapenv:Body>
 </soapenv:Envelope>

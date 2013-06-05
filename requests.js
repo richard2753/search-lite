@@ -1,19 +1,40 @@
 var fs = require('fs');
 
-var file = fs.readFileSync('./requests/SearchByText.xml', {encoding: 'UTF-8'});
+var Template = function (templateString) {
+  var template = templateString;
+  var regex = /\{\{.+\}\}/g;
+  var fields = [];
+  
+  var Field = function(fieldToken) {
+    var token = fieldToken;
+    var tag = token.replace('{{','').replace('}}','').split(':');
+    var name = tag[0];
+    var defaultValue = tag.length == 1 ? '' : tag[1];
+    var getDefaultValue = defaultValue ==='$TODAY$'
+	? function () { return new Date().toISOString(); }
+        : function () { return defaultValue; };
 
-//console.log(file);
+    this.populate = function (message, params) {
+      return message.replace(token, params[name] || getDefaultValue());
+    }
+  }
 
-var createRequest = function(params) {
-  return file
-    .replace('{{arrivalDate}}', params['arrivalDate'] || new Date().toISOString())
-    .replace('{{currencyCode}}', params['currencyCode'] || 'GBP')
-    .replace('{{nights}}', params['nights'] || 1)
-    .replace('{{adults}}', params['adults'] || 2)
-    .replace('{{children}}', params['children'] || 0)
-    .replace('{{searchTerm}}', params['searchTerm']);
+  while (result = regex.exec(templateString)) {
+    fields.push(new Field(result[0]));
+  }
+
+  this.createMessage = function (params) {
+    var message;
+    for (var i = 0; i < fields.length; i++) {
+      message = fields[i].populate(message || template, params);
+    } 
+    return message || template;
+  }
 }
-//console.log(createRequest({searchTerm: 'london'}));
 
-
-exports.createRequest = createRequest;
+var templates = {};
+var files = fs.readdirSync('./requests/').forEach(function(filename) {
+  templates[filename] = new Template(fs.readFileSync('./requests/' + filename, {encoding: 'UTF-8'}));
+});
+console.log(templates);
+exports.templates = templates;

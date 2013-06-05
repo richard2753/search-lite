@@ -1,24 +1,20 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="com.thelateroomsgroup.services.search" xmlns:fil="com.thelateroomsgroup.services.search/Filters" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
    <soapenv:Header/>
    <soapenv:Body>
-      <com:SearchByText>
+      <com:SearchByKeyword>
          <com:request>
             <com:ArrivalDate>{{arrivalDate:$TODAY$}}</com:ArrivalDate>
             <com:CurrencyCode>{{currencyCode:GBP}}</com:CurrencyCode>
             <com:Filters>
                <fil:ExcludeFullHotels>true</fil:ExcludeFullHotels>
             </com:Filters>
+            <com:KeywordId>{{keywordId}}</com:KeywordId>
             <com:Nights>{{nights:1}}</com:Nights>
             <com:Occupancy>
                <com:Adults>{{adults:2}}</com:Adults>
                <com:Children>{{children:0}}</com:Children>
             </com:Occupancy>
-            <com:Page>
-               <com:PageNumber>1</com:PageNumber>
-               <com:PageSize>1000</com:PageSize>
-            </com:Page>
-            <com:SearchText>{{searchTerm}}</com:SearchText>
          </com:request>
-      </com:SearchByText>
+      </com:SearchByKeyword>
    </soapenv:Body>
 </soapenv:Envelope>

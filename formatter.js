@@ -6,48 +6,6 @@ var util = require('util'),
 var Hotel = function() {
 };
 
-var HotelList2 = function (parser) {
-
-  events.EventEmitter.call(this);
-  
-  var self = this,
-      currentHotel;
-
-  parser.on('startElement', function (el) {
-    if (el === 'hotel') {
-      currentHotel = new Hotel();
-      var end_handler =  function(el) {
-        if (el === 'hotel') {
-          self.emit('hotel', {id: currentHotel.id, price: currentHotel.price});
-          parser.removeListener('endElement', end_handler);
-        }
-      }
-      parser.on('endElement', end_handler);
-    }
-
-    if (el === 'hotel_ref') {
-      var id_handler = function (text) {
-        currentHotel.id = text;
-        parser.removeListener('text', id_handler);
-      };
-      parser.on('text', id_handler);
-    }
-
-    if (el === 'price') {
-      var price_handler = function (text) {
-        currentHotel.price = parseFloat(text);
-        parser.removeListener('text', price_handler);
-      };
-      parser.on('text', price_handler);
-    }
-  });
-
-  parser.on('close', function() {
-    self.emit('close');    
-  });
-};
-
-
 var HotelList = function (parser) {
 
   events.EventEmitter.call(this);

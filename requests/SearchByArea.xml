@@ -1,8 +1,9 @@
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="com.thelateroomsgroup.services.search" xmlns:fil="com.thelateroomsgroup.services.search/Filters" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
    <soapenv:Header/>
    <soapenv:Body>
-      <com:SearchByText>
+      <com:SearchByArea>
          <com:request>
+            <com:AreaId>{{aid:100}}</com:AreaId>
             <com:ArrivalDate>{{arrivalDate:$TODAY$}}</com:ArrivalDate>
             <com:CurrencyCode>{{currencyCode:GBP}}</com:CurrencyCode>
             <com:Filters>
@@ -13,12 +14,7 @@
                <com:Adults>{{adults:2}}</com:Adults>
                <com:Children>{{children:0}}</com:Children>
             </com:Occupancy>
-            <com:Page>
-               <com:PageNumber>1</com:PageNumber>
-               <com:PageSize>1000</com:PageSize>
-            </com:Page>
-            <com:SearchText>{{searchTerm}}</com:SearchText>
          </com:request>
-      </com:SearchByText>
+      </com:SearchByArea>
    </soapenv:Body>
 </soapenv:Envelope>
